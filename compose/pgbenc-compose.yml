@@ -1,0 +1,21 @@
+
+injector:
+  image: nuxeo/postgres
+  entrypoint: /bin/bash
+  command: /var/scripts/runpgbench.sh
+  volumes:
+    - ./scripts:/var/scripts:ro
+    - ./results:/var/results   
+  environment:
+    INSTANCE: ${INSTANCE}    
+  labels:
+    org.nuxeo.usage: "pgbench"
+     
+db:
+  environment:
+    POSTGRES_PASSWORD: nuxeo
+    POSTGRES_USER: nuxeo
+  image: nuxeo/postgres
+  labels:
+    org.nuxeo.usage: "pgbench"
+
