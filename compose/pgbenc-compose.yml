@@ -3,19 +3,26 @@ injector:
   image: nuxeo/postgres
   entrypoint: /bin/bash
   command: /var/scripts/runpgbench.sh
+#  command: -c "while true; do sleep 1; done"
   volumes:
-    - ./scripts:/var/scripts:ro
-    - ./results:/var/results   
+    - ../scripts:/var/scripts:ro
+    - ../results:/var/results   
   environment:
-    INSTANCE: ${INSTANCE}    
+    INSTANCE: ${INSTANCE}
+    DB_INSTANCE: ${DB_INSTANCE}
   labels:
     org.nuxeo.usage: "pgbench"
+    org.nuxeo.injector: "true"
      
 db:
   environment:
     POSTGRES_PASSWORD: nuxeo
     POSTGRES_USER: nuxeo
+    POSTGRES_DB: ${DB_INSTANCE}
+    _PGDATA: /var/pgdata
   image: nuxeo/postgres
+  volumes:
+    - ../pgdata:/var/pgdata
   labels:
     org.nuxeo.usage: "pgbench"
 
