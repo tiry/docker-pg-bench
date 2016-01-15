@@ -15,14 +15,14 @@ echo "Run PGBench";
 ## -l --aggregate-interval=1
 PGPASSWORD=nuxeo pgbench -c $CLIENTS -j $THREADS -T $DURATION  -h $INSTANCE"_db_1" -U nuxeo $DB_INSTANCE > pgresult;
 
-cp pgresult /var/results/`hostname`.result
+cp pgresult /var/results/$TESTID"__"`hostname`.result
 
 ## dummy parsing
 line=`tail -1 pgresult` && parts=($line) && res=${parts[2]} && echo $res
 
 ## make the result available at host level (low tech I know)
-echo $res > /var/results/`hostname`.tps
+echo $res > /var/results/$TESTID"__"`hostname`.tps
 
-chmod a+rw /var/results/`hostname`.*
+chmod a+rw /var/results/$TESTID"__"`hostname`.*
 
 #sleep 5000;

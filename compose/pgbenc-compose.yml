@@ -10,6 +10,7 @@ injector:
   environment:
     INSTANCE: ${INSTANCE}
     DB_INSTANCE: ${DB_INSTANCE}
+    TESTID: ${TESTID}
   labels:
     org.nuxeo.usage: "pgbench"
     org.nuxeo.injector: "true"
@@ -19,7 +20,7 @@ db:
     POSTGRES_PASSWORD: nuxeo
     POSTGRES_USER: nuxeo
     POSTGRES_DB: ${DB_INSTANCE}
-    _PGDATA: /var/pgdata
+    PGDATA: /var/pgdata/${TESTID}__${DB_INSTANCE}
   image: nuxeo/postgres
   volumes:
     - ../pgdata:/var/pgdata

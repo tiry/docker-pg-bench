@@ -2,15 +2,13 @@
 
 case "$1" in
         start)
+            export TESTID=$(date +%s);
             for i in `seq 1 ${2:-10}`;
         	do
         		export INSTANCE="nxbench"$i;
         		export DB_INSTANCE="nxbench"$i;
 
-                PGDIR="pgdata/"$DB_INSTANCE; 
-                if [[ -e $PGDIR ]]; then
-                   mv $PGDIR $PGDIR"_BACK_"$(date +%s)
-                fi
+                PGDIR="pgdata/"$TESTID"__"$DB_INSTANCE; 
                 mkdir -p $PGDIR
 
                 docker-compose -f compose/pgbenc-compose.yml --x-networking -p $INSTANCE up -d --force-recreate;     
