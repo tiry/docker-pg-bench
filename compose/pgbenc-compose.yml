@@ -10,6 +10,7 @@ injector:
   environment:
     INSTANCE: ${INSTANCE}
     DB_INSTANCE: ${DB_INSTANCE}
+    CREATE_DB: ${CREATE_DB}
     TESTID: ${TESTID}
   labels:
     org.nuxeo.usage: "pgbench"
@@ -21,6 +22,12 @@ db:
     POSTGRES_USER: nuxeo
     POSTGRES_DB: ${DB_INSTANCE}
     PGDATA: /var/pgdata/${TESTID}__${DB_INSTANCE}
+    PG_SHARED_BUFFERS: ${PG_SHARED_BUFFERS}
+    PG_PREPARED_TRANSACTIONS: ${PG_PREPARED_TRANSACTIONS}
+    PG_EFFECTIVE_CACHE: ${PG_EFFECTIVE_CACHE}
+    PG_WORK_MEM: ${PG_WORK_MEM}
+    PG_WAL_BUFFERS: ${PG_WAL_BUFFERS}
+
   image: nuxeo/postgres
   volumes:
     - ../pgdata:/var/pgdata
