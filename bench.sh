@@ -54,6 +54,12 @@ function startContainersSinglePG {
 	export DB_INSTANCE="nxbench";
 	export CREATE_DB="true";
 
+    export PG_SHARED_BUFFERS=500MB;
+    export PG_PREPARED_TRANSACTIONS=100;
+    export PG_EFFECTIVE_CACHE=1G;
+    export PG_WORK_MEM=64MB;
+    export PG_WAL_BUFFERS=16MB;   
+
     PGDIR="pgdata/"$TESTID"__"$DB_INSTANCE; 
     mkdir -p $PGDIR
 
