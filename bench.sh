@@ -32,6 +32,8 @@ function startContainersMultiPG {
     export PG_WORK_MEM=5MB;
     export PG_WAL_BUFFERS=1MB;   
 
+	echo "Running test in multi PG mode with $1 containers" >> results/aggregated_log	
+
     for i in `seq 1 ${1:-10}`;
 	do
 		export INSTANCE="nxbench"$i;
@@ -55,6 +57,8 @@ function startContainersSinglePG {
     PGDIR="pgdata/"$TESTID"__"$DB_INSTANCE; 
     mkdir -p $PGDIR
 
+	echo "Running test in single PG mode with $1 containers" >> results/aggregated_log	
+
     docker-compose -f compose/pgbenc-compose.yml --x-networking -p $INSTANCE up -d --force-recreate;     
 
     docker-compose -f compose/pgbenc-compose.yml --x-networking -p $INSTANCE scale injector=${1:-10};
@@ -66,6 +70,8 @@ function waitAndGetResults {
 
     echo "total TPS:"
 	cat results/$TESTID*.tps | awk '{s+=$1} END {print s}'
+	echo "total TPS:" >> results/aggregated_log	
+	cat results/$TESTID*.tps | awk '{s+=$1} END {print s}' >> results/aggregated_log
 }
 
 case "$1" in
@@ -99,7 +105,7 @@ case "$1" in
             waitAndGetResults
 	        ;;
         *)
-            echo $"Usage: $0 {start|stop|kill}"
+            echo $"Usage: $0 {start-multi|start-single|run-multi|run-single|stop|kill|wait}"
             exit 1
 esac
 

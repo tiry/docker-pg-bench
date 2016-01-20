@@ -4,7 +4,6 @@
 source $(dirname $0)/config.sh
 
 echo "waiting for PG to be started"
-#PGPASSWORD=nuxeo psql -h $INSTANCE"_db_1" -U nuxeo -c "select 1;"
 
 source $(dirname $0)/waitpg.sh
 
