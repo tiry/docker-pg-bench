@@ -34,6 +34,8 @@ function startContainersMultiPG {
 
 	echo "Running test in multi PG mode with $1 containers" >> results/aggregated_log	
 
+    export CPU_SHARES=1024;
+
     for i in `seq 1 ${1:-10}`;
 	do
 		export INSTANCE="nxbench"$i;
@@ -59,6 +61,9 @@ function startContainersSinglePG {
     export PG_EFFECTIVE_CACHE=1GB;
     export PG_WORK_MEM=64MB;
     export PG_WAL_BUFFERS=16MB;   
+
+    ## Because we have a shared PGSQL, give injector less cpu share than PG!
+    export CPU_SHARES=$((1024/${1:-10}));
 
     PGDIR="pgdata/"$TESTID"__"$DB_INSTANCE; 
     mkdir -p $PGDIR

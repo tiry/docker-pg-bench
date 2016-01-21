@@ -15,7 +15,7 @@ injector:
   labels:
     org.nuxeo.usage: "pgbench"
     org.nuxeo.injector: "true"
-     
+  cpu_shares:${CPU_SHARES}   
 db:
   environment:
     POSTGRES_PASSWORD: nuxeo
