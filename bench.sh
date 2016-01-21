@@ -56,7 +56,7 @@ function startContainersSinglePG {
 
     export PG_SHARED_BUFFERS=500MB;
     export PG_PREPARED_TRANSACTIONS=100;
-    export PG_EFFECTIVE_CACHE=1G;
+    export PG_EFFECTIVE_CACHE=1GB;
     export PG_WORK_MEM=64MB;
     export PG_WAL_BUFFERS=16MB;   
 
