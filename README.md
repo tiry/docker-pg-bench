@@ -72,5 +72,30 @@ Will kill all running test containers.
 Results are available in :`results/aggregated_log`
 
 
+## Install
+
+Being able to configure CPU sharing in `docker-compose` requires correction of Issue # 2730 (associated PR is https://github.com/docker/compose/pull/2759).
+
+This means you have to use the 1.6-dev version of Compose forker in :
+
+https://github.com/tiry/compose
+
+Become of an issue that was corrected after the PR, you have to update docker-py
+
+    sudo pip install docker-py==1.7.0rc3
+
+
+Since 1.6, Docker-Compose networking is no longer activated by the --x-networking, so the v2 of compose yml descriptor format must be used.
+
+But Docker-Engine needs to be upgraded to at least 1.10-rc1 if you do not want to end up with (see issue [2715](https://github.com/docker/compose/issues/2715)):
+
+    ERROR: client is newer than server (client API version: 1.22, server API version: 1.21)
+
+If you run ubuntu you may need to upgrade to wily (15.10) in order to get docker-engine 1.10-rc2 running.
+
+
+
+
+
 
 

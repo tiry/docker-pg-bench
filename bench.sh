@@ -23,6 +23,14 @@ function killContainers {
     docker ps;
 }
 
+function rmContainers {
+    for cid in `docker ps -a --filter "label=org.nuxeo.usage=pgbench" --format "{{.ID}}"`;
+    do
+        echo "rm "$cid
+        docker rm $cid
+    done    
+}
+
 function startContainersMultiPG {
     export TESTID=$(date +%s);
 
@@ -34,7 +42,10 @@ function startContainersMultiPG {
 
 	echo "Running test in multi PG mode with $1 containers" >> results/aggregated_log	
 
+    declare -i CPU_SHARES;
     export CPU_SHARES=1024;
+    
+    echo "cpu=$CPU_SHARES"
 
     for i in `seq 1 ${1:-10}`;
 	do
@@ -44,7 +55,8 @@ function startContainersMultiPG {
         PGDIR="pgdata/"$TESTID"__"$DB_INSTANCE; 
         mkdir -p $PGDIR
 
-        docker-compose -f compose/pgbenc-compose.yml --x-networking -p $INSTANCE up -d --force-recreate;     
+        docker-compose -f compose/pgbenc-compose.yml -p $INSTANCE up -d --force-recreate;     
+
 	done      
 }
 
@@ -52,7 +64,7 @@ function startContainersMultiPG {
 function startContainersSinglePG {
     export TESTID=$(date +%s);
 
-	export INSTANCE="nxbenchSinglePG";
+	export INSTANCE="nxbenchsinglepg";
 	export DB_INSTANCE="nxbench";
 	export CREATE_DB="true";
 
@@ -62,17 +74,20 @@ function startContainersSinglePG {
     export PG_WORK_MEM=64MB;
     export PG_WAL_BUFFERS=16MB;   
 
+
+    declare -i CPU_SHARES;
     ## Because we have a shared PGSQL, give injector less cpu share than PG!
     export CPU_SHARES=$((1024/${1:-10}));
+
+    echo "cpu=$CPU_SHARES"
 
     PGDIR="pgdata/"$TESTID"__"$DB_INSTANCE; 
     mkdir -p $PGDIR
 
 	echo "Running test in single PG mode with $1 containers" >> results/aggregated_log	
 
-    docker-compose -f compose/pgbenc-compose.yml --x-networking -p $INSTANCE up -d --force-recreate;     
-
-    docker-compose -f compose/pgbenc-compose.yml --x-networking -p $INSTANCE scale injector=${1:-10};
+    docker-compose -f compose/pgbenc-compose.yml -p $INSTANCE up -d --force-recreate;     
+    docker-compose -f compose/pgbenc-compose.yml -p $INSTANCE scale injector=${1:-10};
 
 }
 
@@ -111,6 +126,10 @@ case "$1" in
             ;;
         kill)
 			killContainers
+            ;;
+        clean)
+            killContainers
+            rmContainers
             ;;
         wait)
             waitAndGetResults

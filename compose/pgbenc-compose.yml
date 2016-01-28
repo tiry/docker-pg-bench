@@ -1,36 +1,35 @@
-
-injector:
-  image: nuxeo/postgres
-  entrypoint: /bin/bash
-  command: /var/scripts/runpgbench.sh
-#  command: -c "while true; do sleep 1; done"
-  volumes:
-    - ../scripts:/var/scripts:ro
-    - ../results:/var/results   
-  environment:
-    INSTANCE: ${INSTANCE}
-    DB_INSTANCE: ${DB_INSTANCE}
-    CREATE_DB: ${CREATE_DB}
-    TESTID: ${TESTID}
-  labels:
-    org.nuxeo.usage: "pgbench"
-    org.nuxeo.injector: "true"
-  cpu_shares:${CPU_SHARES}   
-db:
-  environment:
-    POSTGRES_PASSWORD: nuxeo
-    POSTGRES_USER: nuxeo
-    POSTGRES_DB: ${DB_INSTANCE}
-    PGDATA: /var/pgdata/${TESTID}__${DB_INSTANCE}
-    PG_SHARED_BUFFERS: ${PG_SHARED_BUFFERS}
-    PG_PREPARED_TRANSACTIONS: ${PG_PREPARED_TRANSACTIONS}
-    PG_EFFECTIVE_CACHE: ${PG_EFFECTIVE_CACHE}
-    PG_WORK_MEM: ${PG_WORK_MEM}
-    PG_WAL_BUFFERS: ${PG_WAL_BUFFERS}
-
-  image: nuxeo/postgres
-  volumes:
-    - ../pgdata:/var/pgdata
-  labels:
-    org.nuxeo.usage: "pgbench"
+version: 2
+services:
+  injector:
+    image: nuxeo/postgres
+    entrypoint: /bin/bash
+    command: /var/scripts/runpgbench.sh
+    volumes:
+      - ../scripts:/var/scripts:ro
+      - ../results:/var/results   
+    environment:
+      INSTANCE: ${INSTANCE}
+      DB_INSTANCE: ${DB_INSTANCE}
+      CREATE_DB: ${CREATE_DB}
+      TESTID: ${TESTID}
+    labels:
+      org.nuxeo.usage: "pgbench"
+      org.nuxeo.injector: "true"
+    cpu_shares: ${CPU_SHARES}
+  db:
+    environment:
+      POSTGRES_PASSWORD: nuxeo
+      POSTGRES_USER: nuxeo
+      POSTGRES_DB: ${DB_INSTANCE}
+      PGDATA: /var/pgdata/${TESTID}__${DB_INSTANCE}
+      PG_SHARED_BUFFERS: ${PG_SHARED_BUFFERS}
+      PG_PREPARED_TRANSACTIONS: ${PG_PREPARED_TRANSACTIONS}
+      PG_EFFECTIVE_CACHE: ${PG_EFFECTIVE_CACHE}
+      PG_WORK_MEM: ${PG_WORK_MEM}
+      PG_WAL_BUFFERS: ${PG_WAL_BUFFERS}
+    image: nuxeo/postgres
+    volumes:
+      - ../pgdata:/var/pgdata
+    labels:
+      org.nuxeo.usage: "pgbench"
 
