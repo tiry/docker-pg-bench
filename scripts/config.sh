@@ -2,10 +2,10 @@
 SCALE=10
 
 ## Test duration 
-DURATION=30
+DURATION=180
 
 ## nb clients 
-CLIENTS=30
+CLIENTS=10
 
 ## nb threads 
-THREADS=30
+THREADS=2

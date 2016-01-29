@@ -68,7 +68,7 @@ function startContainersSinglePG {
 	export DB_INSTANCE="nxbench";
 	export CREATE_DB="true";
 
-    export PG_SHARED_BUFFERS=1GB;
+    export PG_SHARED_BUFFERS=2GB;
     export PG_PREPARED_TRANSACTIONS=100;
     export PG_EFFECTIVE_CACHE=1GB;
     export PG_WORK_MEM=12MB;
