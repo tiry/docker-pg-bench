@@ -53,24 +53,42 @@ The PG Configuration is different between the shared and the dedicated PG.
 
 The pgbench configuration can be tweaked by editing `config.sh`;
 
+## Running Tests
 
-## Running the test
+### Running a single test
 
-    bench.sh run-single 10 
+    ./bench.sh run-single 10 
 
 Will start the shared PG test with 10 instances.
 
-    bench.sh run-multi 10 
+    ./bench.sh run-multi 10 
 
 Will start the dedicated PG test with 10 instances.
 
-    bench.sh kill 
+    ./bench.sh kill 
 
 Will kill all running test containers.
 
-
 Results are available in :`results/aggregated_log`
 
+### Running a benchmark
+
+The `suite.sh` can be used to run alternatively `bench.sh run-single` and `bench.sh run-multi` in a loop with progressively 1, 2, 3, ... 10 instances.
+
+In addition, `suite.sh` will :
+
+ - aggregate bench results in `results/suite_xxx/result.csv`
+ - gather monitoring information using `sar`
+     + log stored in `results/suite_xxx/sar_<single|multi>_<instanceId>`
+ - build a result zip in `results/suite_xxx.zip`
+
+Running the suite is done using:
+
+    ./suite.sh 10 
+
+NB: `suite.sh` require `sar` to be installed on the host
+
+    apt-get install sysstats
 
 ## Install
 
@@ -83,7 +101,6 @@ https://github.com/tiry/compose
 Become of an issue that was corrected after the PR, you have to update docker-py
 
     sudo pip install docker-py==1.7.0rc3
-
 
 Since 1.6, Docker-Compose networking is no longer activated by the --x-networking, so the v2 of compose yml descriptor format must be used.
 
