@@ -2,7 +2,7 @@
 SCALE=10
 
 ## Test duration 
-DURATION=180
+DURATION=300
 
 ## nb clients 
 CLIENTS=10

@@ -98,6 +98,8 @@ function waitAndGetResults {
 	cat results/$TESTID*.tps | awk '{s+=$1} END {print s}'
 	echo "total TPS:" >> results/aggregated_log	
 	cat results/$TESTID*.tps | awk '{s+=$1} END {print s}' >> results/aggregated_log
+    
+    cat results/$TESTID*.tps | awk '{s+=$1} END {print s}' > results/lastresult 
 }
 
 case "$1" in
