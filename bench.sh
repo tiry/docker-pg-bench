@@ -34,11 +34,11 @@ function rmContainers {
 function startContainersMultiPG {
     export TESTID=$(date +%s);
 
-    export PG_SHARED_BUFFERS=5MB;
+    export PG_SHARED_BUFFERS=128MB;
     export PG_PREPARED_TRANSACTIONS=8;
-    export PG_EFFECTIVE_CACHE=100MB;
-    export PG_WORK_MEM=5MB;
-    export PG_WAL_BUFFERS=1MB;   
+    export PG_EFFECTIVE_CACHE=256MB;
+    export PG_WORK_MEM=12MB;
+    export PG_WAL_BUFFERS=8MB;   
 
 	echo "Running test in multi PG mode with $1 containers" >> results/aggregated_log	
 
@@ -68,11 +68,11 @@ function startContainersSinglePG {
 	export DB_INSTANCE="nxbench";
 	export CREATE_DB="true";
 
-    export PG_SHARED_BUFFERS=500MB;
+    export PG_SHARED_BUFFERS=1GB;
     export PG_PREPARED_TRANSACTIONS=100;
     export PG_EFFECTIVE_CACHE=1GB;
-    export PG_WORK_MEM=64MB;
-    export PG_WAL_BUFFERS=16MB;   
+    export PG_WORK_MEM=12MB;
+    export PG_WAL_BUFFERS=8MB;   
 
 
     declare -i CPU_SHARES;
